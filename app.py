@@ -11,21 +11,25 @@ app.config['SECRET_KEY'] = 'k92OlA#c69Qv8m1!'
 
 db = SQLAlchemy(app)
 
+
 class City(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
 
 
+#Api call for current weather   
 def get_weather_data(city):
     url = f'http://api.openweathermap.org/data/2.5/weather?q={ city }&units=metric&appid=e21e920bd8118842c29934ddc6d4974f'
     r = requests.get(url).json()
     return r
 
+#Api for weather forecaste
 def get_forecast_data(city):
     url = f'http://api.openweathermap.org/data/2.5/forecast?q={ city }&units=metric&appid=e21e920bd8118842c29934ddc6d4974f'
     r = requests.get(url).json()
     return r
 
+#Api call for historical weather
 def get_history_data(city):
     #url = f'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{ city }/last7days?unitGroup=metric&key=MQPK63GN7CXF4XH2DH6BRD9C4'
     url = f'https://api.weatherbit.io/v2.0/history/daily?city={ city }&start_date=2021-07-01&end_date=2021-07-07&key=7b9b5a6324124d17b5ed2891c83e0776'
@@ -34,8 +38,7 @@ def get_history_data(city):
 
 
 
-
-
+#current weather section (This is the home route too)
 @app.route('/')
 def index_get():
     cities = City.query.all()
@@ -69,8 +72,9 @@ def index_post():
     new_city = request.form.get('city')
 
     new_city_data = get_weather_data(new_city)
-
-    if new_city_data['cod'] == 200:
+    
+    #checks if the city exists
+    if new_city_data['cod'] == 200:    
         new_city_obj = City(name=new_city)
 
         db.session.add(new_city_obj)
@@ -82,6 +86,8 @@ def index_post():
     return redirect(url_for('index_get'))
 
 
+
+#weather forecast section
 @app.route('/forecast')
 def index2_get():
     cities = City.query.all()
@@ -115,18 +121,21 @@ def index2_post():
     new_city = request.form.get('city')
 
     new_city_data = get_forecast_data(new_city)
-
-    if new_city_data['cod'] == '200':
+    
+    #checks if the city exists
+    if new_city_data['cod'] == '200':         
         new_city_obj = City(name=new_city)
         db.session.add(new_city_obj)
         db.session.commit()
-    else:
+    else:                                  
         flash('City does not exist in the world!')
 
     
     return redirect(url_for('index2_get'))
 
 
+
+#historical weather section
 @app.route('/history')
 def index3_get():
 
@@ -156,7 +165,8 @@ def index3_post():
     new_city = request.form.get('city')
 
     new_city_data = get_history_data(new_city)
-
+    
+    #checks if the city exists
     if new_city_data['city_name'] == new_city:
         new_city_obj = City(name=new_city)
 
