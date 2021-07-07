@@ -1,0 +1,47 @@
+{% extends "basic.html" %}
+{% block content %}
+   
+<h1 style="text-align: center; color:darkorchid;" class="title">~ 5 days Weather Forecast of Your City ~</h1>
+    <section style="min-height: 400px" class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-offset-4 is-4">
+                    {% for forecast in forecast_data %}
+                        
+                    <div class="box">
+                        <article class="media">
+                            <div class="media-left">
+                                <figure class="image is-50x50">
+                                    <img src="http://openweathermap.org/img/w/{{ forecast.icon }}.png" alt="Image">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <span style="padding-right: 100px;" class="title">{{ forecast.city }}</span> 
+                                        <i>
+                                            {%- for i in range(10) -%}
+                                                {{forecast.date[i]}}
+                                            {%- endfor -%}
+                                        </i>
+                                        <br>
+                                        <span class="subtitle">{{ forecast.temp }}° C</span>
+                                        <br>
+                                        <span class="subtitle">Humidity: {{ forecast.humidity }} %</span>
+                                        <br>
+                                        <span class="subtitle">Pressure: {{ forecast.pressure }} mBar</span>
+                                        <br>
+                                        <span class="subtitle">Wind Speed: {{ forecast.wind }} km/h</span>
+                                        <br> {{ forecast.condition }}
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% endblock content %}

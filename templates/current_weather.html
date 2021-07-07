@@ -1,0 +1,42 @@
+{% extends "basic.html" %}
+{% block content %}
+
+
+    <section style="min-height: 400px" class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-offset-4 is-4">
+                    {% for weather in weather_data %}
+                    <div class="box">
+                        <article class="media">
+                            <div class="media-left">
+                                <figure class="image is-50x50">
+                                    <img src="http://openweathermap.org/img/w/{{ weather.icon }}.png" alt="Image Not Found">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <span class="title">{{ weather.city }}</span>
+                                        <br>
+                                        <span class="subtitle">{{ weather.temperature }}° C</span>
+                                        <br>
+                                        <span class="subtitle">Humidity: {{ weather.humidity }} %</span>
+                                        <br>
+                                        <span class="subtitle">Pressure: {{ weather.pressure }} mBar</span>
+                                        <br>
+                                        <span class="subtitle">Wind Speed: {{ weather.wind_speed }} m/s</span>
+
+                                        <br> {{ weather.description }}
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% endblock content %}

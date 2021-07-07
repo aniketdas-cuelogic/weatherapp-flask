@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+    <link rel="stylesheet" type= "text/css" href="../static/mystyle.css">
+</head>
+
+<body>
+    <header>
+        <div>
+            <h1 id="head">
+                Search your city to see the latest weather!
+            </h1>
+        </div>
+        <div id='menu'>
+            <a href="/history" class="menu">Historical Weather</a>
+            <a href="/forecast" class="menu">Weather Forecast</a>
+            <a href="/" class="menu">Current Weather</a>
+        </div>
+    </header> 
+
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-offset-4 is-4">
+                    <form method="POST">
+                        <div class="field has-addons">
+                            <div class="control is-expanded">
+                                <input class="input" name="city" type="text" placeholder="City Name">
+                            </div>
+                            <div class="control">
+                                <button class="button is-info">
+                                    Search City
+                                </button>
+                            </div>
+                        </div>
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                {% set message_class = 'is-danger' %}
+
+                                {% if category == 'error' %}
+                                    {% set message_class = 'is-danger' %}
+                                {% endif %}
+                                <div class="notification {{ message_class }}">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% block content %}
+    {% endblock %}
+    
+    <footer>
+        &copy; Copyright 2021 - Weather App | All Rights Reserved
+    </footer>
+</body>
+
+</html>
