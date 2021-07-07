@@ -23,7 +23,7 @@ def get_weather_data(city):
     r = requests.get(url).json()
     return r
 
-#Api for weather forecaste
+#Api call for weather forecaste
 def get_forecast_data(city):
     url = f'http://api.openweathermap.org/data/2.5/forecast?q={ city }&units=metric&appid=e21e920bd8118842c29934ddc6d4974f'
     r = requests.get(url).json()
@@ -32,7 +32,7 @@ def get_forecast_data(city):
 #Api call for historical weather
 def get_history_data(city):
     #url = f'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{ city }/last7days?unitGroup=metric&key=MQPK63GN7CXF4XH2DH6BRD9C4'
-    url = f'https://api.weatherbit.io/v2.0/history/daily?city={ city }&start_date=2021-07-01&end_date=2021-07-07&key=7b9b5a6324124d17b5ed2891c83e0776'
+    url = f'https://api.weatherbit.io/v2.0/history/daily?city={ city }&start_date=2021-07-01&end_date=2021-07-08&key=7b9b5a6324124d17b5ed2891c83e0776'
     r = requests.get(url).json()
     return r
 
@@ -147,7 +147,7 @@ def index3_get():
         data = get_history_data(city.name)
         
 
-    for key in range(0,6):
+    for key in range(0,7):
         history = {
             'city' : city.name,
             'date':  data['data'][key]['datetime'],
