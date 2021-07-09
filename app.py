@@ -1,5 +1,6 @@
 import requests
 from flask import Flask, render_template, request, redirect, url_for, flash
+import datetime as DT
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -32,7 +33,9 @@ def get_forecast_data(city):
 #Api call for historical weather
 def get_history_data(city):
     #url = f'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{ city }/last7days?unitGroup=metric&key=MQPK63GN7CXF4XH2DH6BRD9C4'
-    url = f'https://api.weatherbit.io/v2.0/history/daily?city={ city }&start_date=2021-07-01&end_date=2021-07-08&key=7b9b5a6324124d17b5ed2891c83e0776'
+    today = DT.date.today()
+    week_ago = today - DT.timedelta(days=7)
+    url = f'https://api.weatherbit.io/v2.0/history/daily?city={ city }&start_date={ week_ago }&end_date={ today }&key=7b9b5a6324124d17b5ed2891c83e0776'
     r = requests.get(url).json()
     return r
 
@@ -176,3 +179,5 @@ def index3_post():
         flash('City does not exist in the world!')
 
     return redirect(url_for('index3_get'))
+
+
